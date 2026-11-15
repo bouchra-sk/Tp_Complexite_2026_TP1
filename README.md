@@ -1,123 +1,99 @@
-# TP – Algorithmique Avancée et Complexité
+# TP N°1 – Test de primalité
 
 <p align="center">
-  <strong>Étude et comparaison expérimentale des algorithmes de recherche et de recherche du minimum et du maximum</strong>
+  <strong>Implémentation et analyse comparative de quatre algorithmes de test de primalité</strong>
 </p>
 
 ---
 
-## Présentation du projet
+## Présentation du TP
 
-Ce TP a pour objectif d'étudier la complexité algorithmique à travers l'implémentation et l'analyse de plusieurs algorithmes en langage C.
+Ce TP porte sur l'étude de différentes approches algorithmiques permettant de déterminer si un entier naturel est un nombre premier.
 
-Il porte principalement sur deux problèmes : la recherche d'un élément dans un tableau et la recherche simultanée du minimum et du maximum d'un ensemble de valeurs.
+L'objectif principal est d'implémenter quatre algorithmes en langage C, puis de comparer leurs performances à travers une analyse théorique et expérimentale de leur complexité temporelle.
 
-Une attention particulière est accordée à la comparaison des performances théoriques et expérimentales des différentes approches.
+Les mesures du temps d'exécution sont réalisées à l'aide des fonctions de la bibliothèque `time.h`, en faisant varier la taille des nombres testés.
 
 ## Objectifs
 
-- Implémenter plusieurs méthodes de recherche dans des tableaux.
-- Étudier les différences entre les meilleurs et les pires cas.
-- Analyser les complexités temporelles des algorithmes.
-- Comparer le nombre de comparaisons effectuées.
-- Mesurer les temps d'exécution en fonction de la taille des données.
-- Représenter graphiquement les résultats expérimentaux.
+- Implémenter différentes méthodes de test de primalité.
+- Comprendre l'impact des optimisations sur les performances d'un algorithme.
+- Étudier les complexités temporelles théoriques.
+- Mesurer les temps d'exécution pour différentes valeurs de N.
+- Comparer les résultats théoriques et expérimentaux.
+- Visualiser graphiquement l'évolution des performances des algorithmes.
 
-## Partie A – Recherche d'un élément
+## Les algorithmes étudiés
 
-Cette partie étudie différentes méthodes permettant de rechercher une valeur donnée dans un tableau.
+### A1 – Approche naïve
 
-### 1. Recherche dans un tableau non trié
+Le premier algorithme consiste à tester la divisibilité de N par tous les entiers compris entre 2 et N-1.
 
-**Fonction :** `rechElets_TabNonTries`
+- Principe : tester chaque diviseur potentiel.
+- Complexité temporelle au pire cas : O(N).
 
-Recherche séquentielle d'un élément dans un tableau non trié.
+### A2 – Amélioration de l'approche naïve
 
-- Meilleur cas : O(1)
-- Pire cas : O(n)
+Cette approche exploite la propriété selon laquelle tout diviseur propre d'un entier N est inférieur ou égal à N/2.
 
-### 2. Recherche dans un tableau trié
+- Principe : limiter les tests de divisibilité jusqu'à N/2.
+- Complexité temporelle au pire cas : O(N).
 
-**Fonction :** `rechElets_TabTries`
+### A3 – Optimisation par la racine carrée
 
-Recherche séquentielle optimisée exploitant l'ordre croissant des éléments pour arrêter la recherche dès que la valeur recherchée ne peut plus être présente.
+Cet algorithme exploite une propriété mathématique des diviseurs : si N possède un diviseur supérieur à √N, alors il possède nécessairement un diviseur inférieur à √N.
 
-- Meilleur cas : O(1)
-- Pire cas : O(n)
+- Principe : tester uniquement les diviseurs jusqu'à √N.
+- Complexité temporelle au pire cas : O(√N).
 
-### 3. Recherche dichotomique
+### A4 – Optimisation par élimination des nombres pairs
 
-**Fonction :** `rechElets_Dicho`
+Cette approche améliore A3 en évitant les tests inutiles sur les nombres pairs.
 
-Cette méthode repose sur le principe de division de l'intervalle de recherche en deux parties à chaque étape.
+- Vérifier d'abord si N est pair.
+- Traiter directement le cas N = 2.
+- Si N est impair, tester uniquement les diviseurs impairs jusqu'à √N.
+- Complexité temporelle au pire cas : O(√N).
 
-Elle nécessite un tableau préalablement trié.
+## Analyse expérimentale
 
-- Meilleur cas : O(1)
-- Pire cas : O(log n)
+Les quatre algorithmes sont testés sur un ensemble de nombres entiers de tailles croissantes.
 
-### Analyse expérimentale
+Les expériences permettent d'étudier :
 
-Les trois algorithmes sont évalués en faisant varier la taille des tableaux afin de mesurer leurs temps d'exécution dans les meilleurs et les pires cas.
+- La variation du temps d'exécution T(N).
+- L'évolution des performances lorsque N augmente.
+- L'influence des optimisations successives.
+- La compatibilité entre les prédictions théoriques et les résultats expérimentaux.
 
-Les résultats permettent d'étudier l'évolution du temps d'exécution et de comparer l'efficacité des différentes méthodes.
+### Comparaison des complexités théoriques
 
-## Partie B – Recherche du minimum et du maximum
-
-Cette partie consiste à déterminer simultanément les valeurs minimale et maximale d'un tableau non trié contenant des éléments distincts.
-
-### 1. Approche naïve
-
-**Fonction :** `MaxEtMinA`
-
-L'approche naïve consiste à parcourir le tableau et à comparer chaque élément avec le minimum et le maximum actuellement connus.
-
-- Complexité temporelle : O(n)
-- Nombre de comparaisons : 2(n - 1)
-
-### 2. Approche optimisée – Comparaison par paires
-
-**Fonction :** `MaxEtMinB`
-
-Cette approche améliore le nombre de comparaisons en procédant par paires :
-
-1. Comparer les éléments deux à deux.
-2. Identifier le plus petit et le plus grand de chaque paire.
-3. Rechercher le minimum parmi les plus petits éléments.
-4. Rechercher le maximum parmi les plus grands éléments.
-5. Traiter séparément le dernier élément lorsque la taille du tableau est impaire.
-
-- Complexité temporelle : O(n)
-- Nombre de comparaisons au pire cas : environ 3n/2 - 2 (pour n pair).
-
-### Comparaison des performances
-
-Un compteur de comparaisons est intégré aux deux fonctions afin d'évaluer leur efficacité.
-
-L'analyse expérimentale porte sur :
-
-- Le nombre de comparaisons effectuées.
-- Le temps d'exécution.
-- L'évolution des performances selon la taille du tableau.
+| Algorithme | Principe | Complexité au pire cas |
+|---|---|---|
+| A1 | Test jusqu'à N-1 | O(N) |
+| A2 | Test jusqu'à N/2 | O(N) |
+| A3 | Test jusqu'à √N | O(√N) |
+| A4 | Test des diviseurs impairs jusqu'à √N | O(√N) |
 
 ## Technologies utilisées
 
 | Technologie | Utilisation |
 |---|---|
 | C | Implémentation des algorithmes |
-| GCC | Compilation |
-| Git & GitHub | Gestion et versionnement du code |
-| Python / Matplotlib | Visualisation des résultats (si utilisés) |
-
-## Analyse et résultats
-
-Les expériences permettent de mettre en évidence les différences entre les approches étudiées, notamment en matière de nombre de comparaisons et de temps d'exécution.
-
-Les tableaux et les représentations graphiques permettent de confronter les résultats expérimentaux aux complexités théoriques.
+| GCC | Compilation et exécution |
+| `time.h` | Mesure du temps d'exécution |
+| Excel | Représentation graphique des résultats |
+| Git & GitHub | Gestion et versionnement du projet |
 
 
 
+## Conclusion
 
+Ce TP permet de mettre en évidence l'importance de l'optimisation algorithmique dans la résolution d'un même problème.
+
+Bien que les quatre algorithmes reposent sur le même principe de test de divisibilité, leurs performances diffèrent considérablement en fonction des optimisations appliquées.
+
+L'analyse théorique, associée aux mesures expérimentales, permet de mieux comprendre l'évolution de la complexité et l'efficacité des différentes approches.
 <p align="center">
   <i>TP réalisé dans le cadre du module Algorithmique Avancée et Complexité.</i>
 </p>
