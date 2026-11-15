@@ -115,25 +115,7 @@ Les expériences permettent de mettre en évidence les différences entre les ap
 
 Les tableaux et les représentations graphiques permettent de confronter les résultats expérimentaux aux complexités théoriques.
 
-## Compilation et exécution
 
-Pour compiler un programme C avec GCC :
-
-```bash
-gcc main.c -o tp_complexite
-```
-
-Pour exécuter le programme :
-
-```bash
-./tp_complexite
-```
-
-Sous Windows :
-
-```powershell
-.\tp_complexite.exe
-```
 
 
 <p align="center">
